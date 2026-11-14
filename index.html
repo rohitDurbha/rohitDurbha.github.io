@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Rohit Durbha is a data scientist. Research, builds and experience.">
+<title>Rohit Durbha Portfolio</title>
+<style>
+@font-face{font-family:"Geist Serif";src:url("fonts/GeistSerifVF.woff2") format("woff2");font-display:swap}
+@font-face{font-family:"Geist Pixel";src:url("fonts/GeistPixelVF.woff2") format("woff2");font-display:swap}
+
+/* Layout idea: one fixed dither field behind the page. Copy sits in a left-aligned
+   column and each section leaves an empty slot where the field draws its figure. */
+:root{
+  --bg:#F0F1F4; --ink:#14161C; --muted:#586070; --line:#14161C22;
+  --dot:#C4C9D4; --star:#AEB4C2;
+  --lilac:#8E84E0; --mint:#55B892; --peach:#E8926A; --sky:#5C9BD6; --butter:#C9A72E; --rose:#DB7FA1;
+  --serif:"Geist Serif",Georgia,"Times New Roman",serif;
+  --pixel:"Geist Pixel","Geist Serif",ui-monospace,monospace;
+  --ease:cubic-bezier(.22,.8,.2,1);
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#080A12; --ink:#E9EAF0; --muted:#969DAD; --line:#E9EAF022;
+    --dot:#2A3044; --star:#D8DBE6;
+    --lilac:#BDB6F5; --mint:#A3E0C7; --peach:#F6C2A6; --sky:#A8CEF0; --butter:#EEDD9A; --rose:#F2B8CC;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#080A12; --ink:#E9EAF0; --muted:#969DAD; --line:#E9EAF022;
+  --dot:#2A3044; --star:#D8DBE6;
+  --lilac:#BDB6F5; --mint:#A3E0C7; --peach:#F6C2A6; --sky:#A8CEF0; --butter:#EEDD9A; --rose:#F2B8CC;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--serif);font-size:1.125rem;line-height:1.65;
+  transition:background-color .8s var(--ease),color .8s var(--ease);overflow-x:hidden}
+a{color:inherit;text-decoration-thickness:1px;text-underline-offset:.22em;transition:text-decoration-thickness .3s var(--ease),text-underline-offset .3s var(--ease),color .3s}
+a:hover{text-decoration-thickness:3px;text-underline-offset:.3em}
+:focus-visible{outline:2px solid var(--ink);outline-offset:4px}
+p{margin:0}
+h1,h2,h3{font-weight:400;margin:0;text-wrap:balance;font-variation-settings:"ELSH" 25}
+
+#field{position:fixed;inset:0;width:100vw;height:100vh;z-index:0;pointer-events:none;
+  image-rendering:pixelated;image-rendering:crisp-edges}
+header,main,footer{position:relative;z-index:1}
+
+/* square and triangle glyphs, one shape morphing into the other */
+.glyph{display:inline-block;width:.62em;height:.62em;background:currentColor;flex:none;
+  clip-path:polygon(0 0,100% 0,100% 100%,0 100%);transition:clip-path .6s var(--ease),transform .6s var(--ease)}
+.glyph.tri{clip-path:polygon(50% 0,50% 0,100% 100%,0 100%)}
+
+header{position:fixed;top:0;left:0;right:0;z-index:5;display:flex;align-items:center;gap:1.5rem;
+  padding:.9rem clamp(1rem,4vw,3rem);font-size:.95rem;
+  background:linear-gradient(var(--bg),transparent);transition:--bg .8s}
+header .me{display:flex;align-items:center;gap:.55rem;text-decoration:none;margin-right:auto}
+header .me:hover .glyph{clip-path:polygon(50% 0,50% 0,100% 100%,0 100%)}
+header nav{display:flex;gap:1.3rem}
+header nav a{text-decoration:none;color:var(--muted)}
+header nav a:hover,header nav a[aria-current="true"]{color:var(--ink)}
+.readout{font-family:var(--pixel);font-variation-settings:"ELSH" 1;font-size:.8rem;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+#theme{appearance:none;border:1px solid var(--line);background:transparent;color:var(--ink);font:inherit;
+  display:flex;align-items:center;gap:.5rem;padding:.35rem .7rem;cursor:pointer;border-radius:0;
+  transition:border-color .3s,background-color .3s}
+#theme:hover{border-color:var(--ink)}
+#theme .glyph{width:.7em;height:.7em}
+@media (max-width:760px){header nav,.readout{display:none}}
+
+main{padding:0 clamp(1rem,4vw,3rem)}
+.entry{display:grid;grid-template-columns:minmax(0,33rem) minmax(0,1fr);gap:clamp(1.5rem,5vw,5rem);
+  align-items:center;min-height:min(94vh,900px);padding:5rem 0}
+.entry.flip{grid-template-columns:minmax(0,1fr) minmax(0,33rem)}
+.entry.flip .slot{order:-1}
+.slot{height:min(62vh,560px);min-height:300px}
+.copy{display:flex;flex-direction:column;gap:1.15rem;align-items:flex-start}
+.copy p{max-width:62ch}
+.copy .lede{font-size:1.45rem;line-height:1.4}
+.muted{color:var(--muted)}
+
+.hero{min-height:min(100vh,940px);padding-top:6.5rem}
+.hero h1{font-size:clamp(3.4rem,10.5vw,8.6rem);line-height:.95;letter-spacing:-.02em;margin-left:-.04em}
+.hero .slot{height:min(70vh,640px)}
+.actions{display:flex;flex-wrap:wrap;gap:.8rem;margin-top:.4rem}
+.btn{display:inline-flex;align-items:center;gap:.6rem;padding:.7rem 1.1rem;border:1px solid var(--ink);text-decoration:none;
+  background:transparent;color:var(--ink);transition:background-color .35s var(--ease),color .35s var(--ease)}
+.btn:hover{background:var(--ink);color:var(--bg)}
+.btn:hover .glyph{clip-path:polygon(50% 0,50% 0,100% 100%,0 100%)}
+.btn.tri-first:hover .glyph{clip-path:polygon(0 0,100% 0,100% 100%,0 100%)}
+
+.tagline{display:flex;align-items:center;gap:.6rem;font-family:var(--pixel);font-variation-settings:"ELSH" 1;font-size:.85rem;color:var(--muted)}
+.tagline .glyph{color:var(--accent,var(--ink))}
+.entry h2{font-size:clamp(2rem,4.4vw,3.3rem);line-height:1.05;letter-spacing:-.01em}
+
+.stats{display:grid;gap:.7rem;margin:.3rem 0 0;width:100%;max-width:30rem}
+.stat{display:grid;grid-template-columns:5.6rem 1fr;column-gap:1rem;align-items:center}
+.stat dt{grid-column:2;font-size:.92rem;color:var(--muted);line-height:1.3}
+.stat dd{grid-column:1;grid-row:1 / span 2;margin:0;font-family:var(--pixel);font-variation-settings:"ELSH" 1;font-size:1.5rem;line-height:1;font-variant-numeric:tabular-nums}
+.cells{grid-column:2;display:grid;grid-template-columns:repeat(20,1fr);gap:2px;margin-top:.35rem}
+.cells i{aspect-ratio:1;background:var(--line)}
+.cells i.on{background:var(--accent,var(--ink))}
+.stack{font-size:.95rem;color:var(--muted)}
+
+.more{padding:5rem 0 3rem;max-width:62rem}
+.more h2{font-size:clamp(2rem,4.4vw,3.3rem);margin-bottom:1.6rem}
+.rows{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.rows li{border-bottom:1px solid var(--line)}
+.rows a{display:grid;grid-template-columns:1.2rem minmax(8rem,13rem) 1fr;gap:1rem;align-items:baseline;padding:1.1rem .2rem;text-decoration:none;
+  transition:padding .5s var(--ease),background-color .5s var(--ease)}
+.rows a:hover{padding-left:1rem;background:var(--line)}
+.rows a:hover .glyph{clip-path:polygon(50% 0,50% 0,100% 100%,0 100%)}
+.rows .glyph{align-self:center}
+.rows .name{font-size:1.35rem}
+.rows .what{color:var(--muted);font-size:1rem}
+@media (max-width:640px){.rows a{grid-template-columns:1.2rem 1fr}.rows .what{grid-column:2}}
+
+.school{display:grid;gap:.5rem;font-size:1rem}
+.contact-links{display:grid;gap:.2rem;font-size:clamp(1.3rem,2.6vw,1.9rem);line-height:1.5}
+.contact-links a{display:inline-flex;align-items:center;gap:.7rem;text-decoration:none}
+.contact-links a:hover .glyph{clip-path:polygon(50% 0,50% 0,100% 100%,0 100%)}
+.contact-links small{font-size:.95rem;color:var(--muted);margin-left:.2rem}
+
+footer{padding:2.5rem clamp(1rem,4vw,3rem) 3rem;color:var(--muted);font-size:.9rem}
+
+@media (max-width:860px){
+  .entry,.entry.flip{grid-template-columns:minmax(0,1fr);min-height:0;padding:3.5rem 0;gap:1.5rem}
+  .entry .slot,.entry.flip .slot{order:-1;height:44vh;min-height:240px}
+  .hero{padding-top:4.5rem}
+  .hero .slot{height:38vh}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *{transition-duration:.01ms !important}
+}
+
+.work{padding:5rem 0 4rem}
+.work-head{max-width:46rem;display:flex;flex-direction:column;gap:1.1rem;margin-bottom:2.4rem}
+.work-head h2{font-size:clamp(2.4rem,5.6vw,4.4rem);line-height:1;letter-spacing:-.015em}
+.months{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:1rem;align-items:center;width:100%;max-width:34rem}
+.months .cells{margin:0;grid-column:auto}
+.months span{font-family:var(--pixel);font-variation-settings:"ELSH" 1;font-size:.85rem;color:var(--muted)}
+.work-grid{display:grid;grid-template-columns:minmax(0,35rem) minmax(0,1fr);gap:clamp(1.5rem,5vw,5rem);align-items:start}
+.work-grid .slot{position:sticky;top:5.5rem;height:min(66vh,600px)}
+.threads{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.thread{border-bottom:1px solid var(--line)}
+.thread button{appearance:none;background:none;border:0;color:inherit;font:inherit;text-align:left;cursor:pointer;
+  display:grid;grid-template-columns:5.2rem 1fr auto;gap:1rem;align-items:center;width:100%;padding:1.05rem .2rem;
+  transition:padding .5s var(--ease)}
+.thread button:hover{padding-left:.7rem}
+.thread .val{font-family:var(--pixel);font-variation-settings:"ELSH" 1;font-size:1.35rem;line-height:1;color:var(--muted);transition:color .5s}
+.thread.open .val{color:var(--accent)}
+.thread .ttl{font-size:1.35rem;line-height:1.25}
+.thread.open button .glyph{clip-path:polygon(50% 0,50% 0,100% 100%,0 100%);color:var(--accent)}
+.thread .panel{display:grid;grid-template-rows:0fr;transition:grid-template-rows .65s var(--ease)}
+.thread.open .panel{grid-template-rows:1fr}
+.thread .panel>div{overflow:hidden;min-height:0}
+.thread .inner{display:flex;flex-direction:column;gap:.8rem;padding:0 .2rem 1.4rem 6.2rem;opacity:0;transform:translateY(-6px);
+  transition:opacity .5s var(--ease),transform .6s var(--ease)}
+.thread.open .inner{opacity:1;transform:none}
+.thread .lab{font-size:.95rem;color:var(--muted)}
+.thread .cap{font-size:.92rem;color:var(--muted);display:flex;gap:.6rem;align-items:baseline}
+.thread .cap .glyph{color:var(--accent);transform:translateY(-.05em)}
+.thread .mslot{height:0;min-height:0;transition:height .65s var(--ease)}
+.work-foot{display:grid;grid-template-columns:minmax(0,35rem) minmax(0,1fr);gap:clamp(1.5rem,5vw,5rem);margin-top:3.2rem}
+.work-foot h3{font-size:1.35rem;margin-bottom:.8rem}
+.kit{margin:0;display:grid;gap:.55rem;font-size:1rem}
+.kit div{display:grid;grid-template-columns:9.5rem 1fr;gap:1rem}
+.kit dt{color:var(--muted)}
+.kit dd{margin:0}
+@media (max-width:860px){
+  .work-grid,.work-foot{grid-template-columns:minmax(0,1fr)}
+  .work-grid>.slot{display:none}
+  .thread .inner{padding-left:.2rem}
+  .thread.open .mslot{height:40vh}
+  .kit div{grid-template-columns:1fr;gap:0}
+}
+</style>
+</head>
+<body>
+<canvas id="field" aria-hidden="true"></canvas>
+
+<header>
+  <a class="me" href="#top"><span class="glyph"></span><span id="me-name"></span></a>
+  <nav aria-label="Sections" id="nav"></nav>
+  <span class="readout" id="readout" aria-hidden="true">signal 000%</span>
+  <button id="theme" type="button"><span class="glyph"></span><span id="theme-label">Dark</span></button>
+</header>
+
+<main id="top"></main>
+
+<footer><p id="foot"></p></footer>
+
+<script src="content.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
