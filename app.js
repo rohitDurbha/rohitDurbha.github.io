@@ -379,15 +379,20 @@
   /* ---------- canvas state ---------- */
   let W, H, PX, img, buf, val, col, dirty = true;
   function resize() {
-    PX = innerWidth < 720 ? 3 : 4;
-    W = Math.ceil(innerWidth / PX); H = Math.ceil(innerHeight / PX);
+    /* size the canvas from the real viewport so drawing lines up with the page on phones */
+    const vw = document.documentElement.clientWidth || innerWidth, vhh = innerHeight;
+    const px = vw < 720 ? 3 : 4, w = Math.ceil(vw / px), h = Math.ceil(vhh / px);
+    if (w === W && h === H && px === PX) return;
+    PX = px; W = w; H = h;
     cv.width = W; cv.height = H;
+    cv.style.width = W * PX + 'px'; cv.style.height = H * PX + 'px';
     img = ctx.createImageData(W, H);
     buf = new Uint32Array(img.data.buffer);
     val = new Float32Array(W * H); col = new Uint8Array(W * H);
     dirty = true;
   }
   addEventListener('resize', resize);
+  if (window.visualViewport) visualViewport.addEventListener('resize', resize);
 
   const slots = [...document.querySelectorAll('.slot')].map((el, i) => ({ el, fig: el.dataset.fig, ci: Math.max(0, NAMES.indexOf(el.dataset.accent)), hero: i === 0, sw: 1, next: null }));
   const morphs = [...document.querySelectorAll('[data-morph]')].map(el => ({ el, v: 25, pointer: el.dataset.morph === 'pointer' }));
@@ -398,6 +403,9 @@
   let mx = -9999, my = -9999, mxs = -9999, mys = -9999, mAmt = 0, mAmtT = 0;
   addEventListener('pointermove', e => { mx = e.clientX; my = e.clientY; mAmtT = 1; dirty = true; }, { passive: true });
   addEventListener('pointerleave', () => { mAmtT = 0; });
+  const touchEnd = e => { if (e.pointerType !== 'mouse') mAmtT = 0; };
+  addEventListener('pointerup', touchEnd, { passive: true });
+  addEventListener('pointercancel', touchEnd, { passive: true });
   document.addEventListener('mouseleave', () => { mAmtT = 0; });
   addEventListener('scroll', () => { dirty = true; }, { passive: true });
 

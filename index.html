@@ -45,7 +45,7 @@ a:hover{text-decoration-thickness:3px;text-underline-offset:.3em}
 p{margin:0}
 h1,h2,h3{font-weight:400;margin:0;text-wrap:balance;font-variation-settings:"ELSH" 25}
 
-#field{position:fixed;inset:0;width:100vw;height:100vh;z-index:0;pointer-events:none;
+#field{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;
   image-rendering:pixelated;image-rendering:crisp-edges}
 header,main,footer{position:relative;z-index:1}
 
@@ -56,7 +56,7 @@ header,main,footer{position:relative;z-index:1}
 
 header{position:fixed;top:0;left:0;right:0;z-index:5;display:flex;align-items:center;gap:1.5rem;
   padding:.9rem clamp(1rem,4vw,3rem);font-size:.95rem;
-  background:linear-gradient(var(--bg),transparent);transition:--bg .8s}
+  background:linear-gradient(var(--bg) 62%,transparent)}
 header .me{display:flex;align-items:center;gap:.55rem;text-decoration:none;margin-right:auto}
 header .me:hover .glyph{clip-path:polygon(50% 0,50% 0,100% 100%,0 100%)}
 header nav{display:flex;gap:1.3rem}
@@ -127,9 +127,11 @@ footer{padding:2.5rem clamp(1rem,4vw,3rem) 3rem;color:var(--muted);font-size:.9r
 
 @media (max-width:860px){
   .entry,.entry.flip{grid-template-columns:minmax(0,1fr);min-height:0;padding:3.5rem 0;gap:1.5rem}
-  .entry .slot,.entry.flip .slot{order:-1;height:44vh;min-height:240px}
+  .entry .slot,.entry.flip .slot{order:-1;height:42vh;height:42svh;min-height:240px}
   .hero{padding-top:4.5rem}
-  .hero .slot{height:38vh}
+  .hero .slot{height:36vh;height:36svh}
+  body{font-size:1.0625rem}
+  .copy .lede{font-size:1.3rem}
 }
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
@@ -143,7 +145,7 @@ footer{padding:2.5rem clamp(1rem,4vw,3rem) 3rem;color:var(--muted);font-size:.9r
 .months .cells{margin:0;grid-column:auto}
 .months span{font-family:var(--pixel);font-variation-settings:"ELSH" 1;font-size:.85rem;color:var(--muted)}
 .work-grid{display:grid;grid-template-columns:minmax(0,35rem) minmax(0,1fr);gap:clamp(1.5rem,5vw,5rem);align-items:start}
-.work-grid .slot{position:sticky;top:5.5rem;height:min(66vh,600px)}
+.work-grid>.slot{position:sticky;top:5.5rem;height:min(66vh,600px)}
 .threads{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
 .thread{border-bottom:1px solid var(--line)}
 .thread button{appearance:none;background:none;border:0;color:inherit;font:inherit;text-align:left;cursor:pointer;
@@ -174,7 +176,11 @@ footer{padding:2.5rem clamp(1rem,4vw,3rem) 3rem;color:var(--muted);font-size:.9r
   .work-grid,.work-foot{grid-template-columns:minmax(0,1fr)}
   .work-grid>.slot{display:none}
   .thread .inner{padding-left:.2rem}
-  .thread.open .mslot{height:40vh}
+  .thread.open .mslot{height:38vh;height:38svh;margin-bottom:.4rem}
+  .thread button{grid-template-columns:3.9rem 1fr auto;gap:.7rem}
+  .thread .val{font-size:1.1rem}
+  .thread .ttl{font-size:1.2rem}
+  .work-head h2{font-size:clamp(2.2rem,11vw,3rem)}
   .kit div{grid-template-columns:1fr;gap:0}
 }
 </style>
